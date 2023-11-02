@@ -6,12 +6,7 @@ from source.modelos.regex_grupo_interesse import RegexGrupoInteresse
 
 class AvaliadorRegex():
     def __init__ (self, regex: str, grupos_interesse: list[RegexGrupoInteresse]) -> None:
-        """
-        Parâmetros:
-            - regex: regex
-            - groupos_interese: grupos de interesse
-        """
-        self.__regex=regex
+        self.__regex = regex
         self.__grupos_interesse = grupos_interesse
 
     def avaliar (self, expressao: str) -> list[Any]:
@@ -24,10 +19,7 @@ class AvaliadorRegex():
         return self.__try_extrair_elementos(matches)
 
     def __avaliar_regex (self, expressao: str) -> Match[str]:
-        """
-        Check se valid, raise ExpInv se nao
-        """
-        matches=re_match(self.__regex, expressao)
+        matches = re_match(self.__regex, expressao)
         if not matches:
             raise ExpressaoInvalida()
         return matches
@@ -40,10 +32,5 @@ class AvaliadorRegex():
 
     def __extrair_elementos (self, matches: Match[str]) -> list[Any]:
         grupos = matches.groups()
-        # resultado: list[Any] = []
-        # for grupo_interesse in self.__grupos_interesse:
-        #     valor_capturado = grupos[grupo_interesse.index]
-        #     valor_convertido = grupo_interesse.tipo(valor_capturado)
-        #     resultado.append(valor_convertido)
-        # return resultado
+
         return [grupo_interesse.tipo(grupos[grupo_interesse.index]) for grupo_interesse in self.__grupos_interesse]
